@@ -2,14 +2,17 @@ package main
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 func HealthCheckHandler(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"status": "ok",
-	})
+	c.Header("Cache-Control", "no-cache, no-store, must-revalidate")
+	c.Header("Pragma", "no-cache")
+	c.Header("X-Content-Type-Options", "nosniff")
+
+	c.Status(http.StatusOK)
 }
 
 func main() {
