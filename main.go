@@ -51,6 +51,16 @@ func CheckMethodMiddleware() gin.HandlerFunc {
 	}
 }
 
+func CheckPayloadMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if c.Request.ContentLength > 0 {
+			c.Status(http.StatusBadRequest)
+			return
+		}
+		c.Next()
+	}
+}
+
 func main() {
 
 	var err error
@@ -62,6 +72,7 @@ func main() {
 	router := gin.Default();
 
 	router.Use(CheckMethodMiddleware())
+	router.Use(CheckPayloadMiddleware())
 
 	router.GET("/healthz", HealthCheckHandler)
 	router.Run(":8080")
