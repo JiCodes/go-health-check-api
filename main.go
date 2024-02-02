@@ -41,6 +41,16 @@ func HealthCheckHandler(c *gin.Context) {
 	}
 }
 
+func CheckMethodMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if c.Request.URL.Path == "/healthz" && c.Request.Method != http.MethodGet {
+			c.Status(http.StatusMethodNotAllowed)
+			return
+		}
+		c.Next()
+	}
+}
+
 func main() {
 
 	var err error
@@ -50,6 +60,9 @@ func main() {
 	}
 
 	router := gin.Default();
+
+	router.Use(CheckMethodMiddleware())
+
 	router.GET("/healthz", HealthCheckHandler)
 	router.Run(":8080")
 	fmt.Println("Server listening on :8080")
