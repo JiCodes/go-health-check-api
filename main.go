@@ -47,9 +47,7 @@ func main() {
 	db, err = connectDB()
 	if err != nil {
 		fmt.Println("Error connecting to the database:", err)
-		return
 	}
-	fmt.Println("Connected to the database")
 
 	router := gin.Default();
 	router.GET("/healthz", HealthCheckHandler)
