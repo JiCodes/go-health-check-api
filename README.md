@@ -14,22 +14,21 @@ go get -u gorm.io/driver/postgres
 go get -u github.com/joho/godotenv
 ```
 
-## How to test the API
+## How to test the API in zsh
 
 ```sh
 # Test GET method - should return 200 OK
 curl -4 -vvvv http://localhost:8080/healthz
 
-# Test payload not allowed - should return 400 Bad Request
-curl -4 -d "data=payload" -vvvv http://localhost:8080/healthz
+# Test payload not allowed is request - should return 400 Bad Request
+curl -4 -vvvv http://localhost:8080/healthz\?payload\=test
 
 # Test PUT method not allowed - should return 405 Method Not Allowed
 curl -4 -vvvv -XPUT http://localhost:8080/healthz
 
 # Test DB connection - Modify the dsn,
-# Or kill the psql server:
-sudo lsof -i :5432
-sudo kill -15 PID
+# Or simplly shut down the DB to test the connection
+make stop_containers
 # should return 503 Service Unavailable when the DB is not available
 curl -4 -vvvv http://localhost:8080/healthz
 ```
