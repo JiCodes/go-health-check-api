@@ -45,6 +45,7 @@ func CheckMethodMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.Request.URL.Path == "/healthz" && c.Request.Method != http.MethodGet {
 			c.Status(http.StatusMethodNotAllowed)
+			c.Abort()
 			return
 		}
 		c.Next()
@@ -53,8 +54,9 @@ func CheckMethodMiddleware() gin.HandlerFunc {
 
 func CheckPayloadMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if c.Request.ContentLength > 0 {
+		if c.Request.URL.Path == "/healthz" && len(c.Request.URL.Query()) > 0 { 
 			c.Status(http.StatusBadRequest)
+			c.Abort()
 			return
 		}
 		c.Next()
