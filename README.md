@@ -21,6 +21,11 @@ go get -u github.com/joho/godotenv
 curl -4 -vvvv http://localhost:8080/healthz
 
 # Test payload not allowed is request - should return 400 Bad Request
+
+# curl -4 -d "payload" -vvvv http://localhost:8080/healthz
+
+# Test query parameters not allowed is request - should return 400 Bad Request
+
 curl -4 -vvvv http://localhost:8080/healthz\?payload\=test
 
 # Test PUT method not allowed - should return 405 Method Not Allowed
