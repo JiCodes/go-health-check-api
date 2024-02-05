@@ -54,7 +54,8 @@ func CheckMethodMiddleware() gin.HandlerFunc {
 
 func CheckPayloadMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if c.Request.URL.Path == "/healthz" && len(c.Request.URL.Query()) > 0 { 
+		if c.Request.URL.Path == "/healthz" && len(c.Request.URL.Query()) > 0 {	 // Check if there are any query parameters
+	//if c.Request.URL.Path == "/healthz" && c.Request.ContentLength > 0 { // Check if there is a payload
 			c.Status(http.StatusBadRequest)
 			c.Abort()
 			return
