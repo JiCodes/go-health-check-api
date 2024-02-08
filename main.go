@@ -44,8 +44,7 @@ func HealthCheckHandler(c *gin.Context) {
 func CheckMethodMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.Request.URL.Path == "/healthz" && c.Request.Method != http.MethodGet {
-			c.Status(http.StatusMethodNotAllowed)
-			c.Abort()
+			c.AbortWithStatus(http.StatusMethodNotAllowed)
 			return
 		}
 		c.Next()
@@ -56,8 +55,7 @@ func CheckPayloadMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if c.Request.URL.Path == "/healthz" && len(c.Request.URL.Query()) > 0 {	 // Check if there are any query parameters
 	//if c.Request.URL.Path == "/healthz" && c.Request.ContentLength > 0 { // Check if there is a payload
-			c.Status(http.StatusBadRequest)
-			c.Abort()
+			c.AbortWithStatus(http.StatusBadRequest)
 			return
 		}
 		c.Next()
