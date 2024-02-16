@@ -16,6 +16,7 @@ start_container:
 	docker start ${DB_DOCKER_CONTAINER}
 
 create_db:
-	docker exec -it $(DB_DOCKER_CONTAINER) dropdb --username=${DB_USER} ${DB_NAME} || true
 	docker exec -it ${DB_DOCKER_CONTAINER} createdb --username=${DB_USER} --owner=${DB_USER} ${DB_NAME}
 
+drop_db:
+	docker exec -it ${DB_DOCKER_CONTAINER} dropdb --username=${DB_USER} ${DB_NAME}
